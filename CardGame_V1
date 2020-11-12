@@ -1,1 +1,75 @@
-# Chapter9
+"""
+File: CH9_P9.py
+"""
+
+from breezypythongui import EasyFrame
+from tkinter import PhotoImage
+from cards import Deck, Card
+import os
+
+class blackJack(EasyFrame):
+    """Illustrates command"""
+
+    def __init__(self):
+        """Sets up the GUI"""
+        EasyFrame.__init__(self, title = "Game Time")
+        self.setSize(440, 400)
+        self.cardLabel1 = self.addLabel("", row = 0,
+                                       column = 0,
+                                       sticky = "NSEW")
+        self.cardLabel2 = self.addLabel("", row = 0,
+                                       column = 1,
+                                       sticky = "NSEW",
+                                       columnspan = 2)
+        self.stateLabel = self.addLabel("", row = 1, column = 0,
+                                        sticky = "NSEW",
+                                        columnspan = 2)
+        self.addButton(row = 2, column = 0,
+                       text = "New game",
+                       command = self.newDeal)
+        self.addButton(row = 2, column = 1,
+                       text = "Quit",
+                       command = self.quit)
+
+        
+
+
+    def newDeal(self):
+        self.card1 = Card(1, 'c')
+        self.card2 = Card(4, 'd')
+        self.stateLabel["text"] = ""
+        self.refreshImages()
+
+    def exit(self):
+        return False
+
+    def refreshImages(self):
+        fileName1 = "DECK/" + str(self.card1) + ".gif"
+        fileName2 = "DECK/" + str(self.card2) + ".gif"
+        self.image1 = PhotoImage(file = fileName1)
+        self.cardLabel1["image"] = self.image1
+        self.image2 = PhotoImage(file = fileName2)
+        self.cardLabel2["image"] = self.image2
+
+    def save(self, fileName = None):
+        if fileName != None:
+            self.fileName = fileName
+        elif self.fileName == None:
+            return
+        fileObj = open(self. fileName, "wb")
+        for card in self.cards.values():
+            pickle.dump(card, fileObj)
+            fileObj.close()
+        
+ 
+
+
+
+
+
+def main():
+    """Instantiate and pop up the window."""
+    blackJack().mainloop()
+
+if __name__ == "__main__":
+    main()
